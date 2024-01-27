@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; 
+        style-src 'self' 'unsafe-inline';
+        script-src * 'unsafe-inline';
+        media-src *; img-src 'self' data: content:;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <link rel="stylesheet" href="css/index.css">
+
+    <!-- JS files -->
+    <script src="js/jquery.js"></script>
+    <link rel="stylesheet" href="css/jquery.mobile.css">
+    <script src="js/jquery.mobile.js"></script>
+    <link rel="stylesheet" href="css/billSplit.css">
+    <script src="js/billSPplit.js"></script>
+
+    <!-- Css files -->
+    <title></title>
+
+
+</head>
+
+<body>
+
+    <!-- Login Page -->
+    <div data-role="page" id="login">
+        <div data-role="header">
+            <h1>Bill Split</h1>
+        </div>
+
+        <div data-role="main" class="ui-content">
+
+            <ul data-role="listview" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+                <li data-role="list-divider">
+                    <h1>Login</h1>
+                </li>
+                <li><input type="text" id="lemail" placeholder="Enter E-mail" autocomplete="off" />
+                    <input type="password" id="lpassword" placeholder="Password" /></li>
+                <li><button onclick="login()" data-role="button" data-icon="lock">Login</button></li>
+            </ul>
+            <a href="#signup" data-role="button" data-icon="check">Sign up</a>
+        </div>
+
+        <div data-role="footer" data-position="fixed">
+            <h2>&copy; R. Patalia & M. Maiyani. 2020</h2>
+        </div>
+    </div>
+
+    <!-- Sign up Page -->
+    <div data-role="page" id="signup">
+        <div data-role="header">
+            <h1>Bill Split</h1>
+        </div>
+
+        <div data-role="main" class="ui-content">
+
+            <ul data-role="listview" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+                <li data-role="list-divider">
+                    <h1>Sign Up</h1>
+                </li>
+                <li>
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" placeholder="Enter first name" autocomplete="off" />
+
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" placeholder="Enter last name" autocomplete="off" />
+
+                    <label for="email">E-Mail:</label>
+                    <input type="email" id="email" placeholder="Enter E-mail" autocomplete="off" />
+
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Enter Password" autocomplete="off" />
+
+                    <label for="conpassword">Confirm Password:</label>
+                    <input type="password" id="conpassword" placeholder="Enter confirm password" autocomplete="off" />
+
+                </li>
+                <li><button data-role="button" data-icon="check" onclick="signUp()">Sign up</button></li>
+            </ul>
+            <a onclick="logout()" data-role="button" data-icon="lock">Login</a>
+        </div>
+
+        <div data-role="footer" data-position="fixed">
+            <h2>&copy; R. Patalia & M. Maiyani. 2020</h2>
+        </div>
+    </div>
+
+    <!-- Bills page -->
+    <div data-role="page" id="bills">
+        <div data-role="header">
+            <a onclick="logout()" data-role="button" data-icon="power" data-inline="true">Log out</a>
+            <h1>Bill Split</h1>
+            <div data-role="navbar" data-iconpos="top">
+                <ul>
+                    <li><a href="#bills" data-icon="home" class="ui-btn-active ui-state-persist">Bills</a></li>
+                    <li><a href="#expenses" data-icon="eye" data-transition="slide">Expenses</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div data-role="main" class="ui-content" style="text-align:center;">
+            <h1 id="uname" ></h1>
+            <div class="ui-content" >
+                <div data-role="fieldcontain">
+                    <label for="billamount">Enter bill amount:</label>
+                    <input type="number" id="billamount" placeholder="Enter bill amount" autocomplete="off" />
+                    <br />
+                    <label for="des">Enter description:</label>
+                    <input type="text" id="des" placeholder="Enter bill description" autocomplete="off" />
+                    <br />
+                </div>
+
+                <ul data-role="listview" id="memberlist" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+                </ul>
+                <button onclick="addBill()" data-role="button" data-icon="plus">Add bill</button>
+            </div>
+        </div>
+
+        <div data-role="footer" data-position="fixed">
+            <h2>&copy; R. Patalia & M. Maiyani. 2020</h2>
+        </div>
+    </div>
+
+    <!-- dialog -->
+    <div data-role="page" data-dialog="true" id="dialog">
+        <div data-role="header">
+            <h1>Send Bill Data?</h1>
+        </div>
+
+        <div data-role="main" class="ui-content">
+            <p>Are you sure want to send bill data to cloud?</p>
+            <a href="#bills" data-role="button" data-inline="true">Cancel</a>
+            <a onclick="send()" data-role="button" data-inline="true">Send</a>
+        </div>
+    </div>
+
+    <!-- Expenses -->
+    <div data-role="page" id="expenses">
+        <div data-role="header">
+            <a onclick="logout()" data-role="button" data-icon="power" data-inline="true">Log out</a>
+            <h1>Bill Split</h1>
+            <a href="#dialog" data-role="button" data-icon="cloud" data-inline="true">Send Bills</a>
+            <div data-role="navbar" data-iconpos="top">
+                <ul>
+                    <li><a href="#bills" data-icon="home" data-transition="slide">Bills</a></li>
+                    <li><a href="#expenses" data-icon="eye" class="ui-btn-active ui-state-persist">Expenses</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div data-role="main" class="ui-content"  style="text-align:center;">
+            <a href="#ask" data-role="button" data-icon="cloud" data-inline="true">Load bills from cloud</a>
+            <h1 id="extitle"></h1>
+            <div>
+                <ul data-role="listview" id="loadedbills" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+                </ul>
+            </div>
+        </div>
+        
+        <div data-role="footer" data-position="fixed" >
+            <h2>&copy; R. Patalia & M. Maiyani. 2020</h2>
+        </div>
+    </div>
+
+    <!-- Cloud data dialog -->
+    <div data-role="page" data-dialog="true" id="ask">
+        <div data-role="header">
+            <h1>Load Data</h1>
+        </div>
+
+        <div data-role="main" class="ui-content">
+            <p>How you want to load data from cloud?</p>
+            <label>
+                Your friends owe you 
+                <input type="radio" id="payer" name="radio" unchecked>
+            </label>
+            <label>
+                You owe your friends
+                <input type="radio" id="debtor" name="radio" unchecked>
+            </label>
+            <a onclick="cloudData()" data-role="button" data-inline="true">Load</a>
+        </div>
+    </div>
+
+    <div data-role="page" id="expensesCloud">
+        <div data-role="header">
+            <h1>Bill Split</h1>
+            <a onclick="logout()" data-role="button" data-icon="power" data-inline="true">Log out</a>
+            <div data-role="navbar" data-iconpos="top">
+                <ul>
+                    <li><a href="#bills" data-icon="home" data-transition="slide">Bills</a></li>
+                    <li><a href="#expenses" data-icon="eye" class="ui-btn-active ui-state-persist">Expenses</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div data-role="main" class="ui-content"  style="text-align:center;">
+            <h1 id="heading"></h1>
+            <ul data-role="listview" id="cloudbills" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+            </ul>
+        </div>
+        
+        <div data-role="footer" data-position="fixed" >
+            <h2>&copy; R. Patalia & M. Maiyani. 2020</h2>
+        </div>
+    </div>
+
+    </div>
+</body>
+<script src="cordova.js"></script>
+<script src="js/index.js"></script>
+
+</html>
